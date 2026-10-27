@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - Katalog Produk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/products.css">
+</head>
+<body>
+
+  <!-- Section Katalog Produk -->
+  <section class="catalog-container">
+    <h2>Katalog Produk</h2>
+
+    <!-- Filter & Pencarian -->
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Cari produk...">
+      <select id="categoryFilter">
+        <option value="all">Semua Kategori</option>
+        <option value="elektronik">Elektronik</option>
+        <option value="pakaian">Pakaian</option>
+        <option value="aksesoris">Aksesoris</option>
+      </select>
+    </div>
+
+    <!-- Grid Tempat Produk Ditampilkan -->
+    <div class="product-grid" id="productGrid">
+      <!-- Data produk akan di-generate otomatis oleh JavaScript -->
+    </div>
+  </section>
+
+  <script src="js/products.js"></script>
+</body>
+</html>
