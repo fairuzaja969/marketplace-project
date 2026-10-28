@@ -3,33 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace - Katalog Produk</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Marketplace Kelompok</title>
   <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/cart.css">
 </head>
 <body>
 
-  <!-- Section Katalog Produk -->
+  <!-- 1. Bagian Katalog Produk -->
   <section class="catalog-container">
     <h2>Katalog Produk</h2>
-
-    <!-- Filter & Pencarian -->
     <div class="filter-bar">
       <input type="text" id="searchInput" placeholder="Cari produk...">
       <select id="categoryFilter">
         <option value="all">Semua Kategori</option>
         <option value="elektronik">Elektronik</option>
         <option value="pakaian">Pakaian</option>
-        <option value="aksesoris">Aksesoris</option>
+        <option value="aksesoris">Aksoris</option>
       </select>
     </div>
-
-    <!-- Grid Tempat Produk Ditampilkan -->
-    <div class="product-grid" id="productGrid">
-      <!-- Data produk akan di-generate otomatis oleh JavaScript -->
-    </div>
+    <div class="product-grid" id="productGrid"></div>
   </section>
 
+  <!-- 2. Bagian Keranjang Belanja & Floating Button -->
+  <div class="cart-floating-btn" onclick="toggleCartModal()">
+    🛒 <span id="cartCount">0</span>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-modal">
+      <div class="cart-header">
+        <h2>Keranjang Belanja</h2>
+        <button class="close-btn" onclick="toggleCartModal()">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="total-price">
+          <span>Total:</span>
+          <strong id="cartTotal">Rp 0</strong>
+        </div>
+        <button class="checkout-btn" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Bagian Modal Checkout -->
+  <div class="checkout-overlay" id="checkoutOverlay">
+    <div class="checkout-modal">
+      <h2>Form Formulir Checkout</h2>
+      <form id="checkoutForm" onsubmit="processCheckout(event)">
+        <div class="form-group">
+          <label for="name">Nama Lengkap</label>
+          <input type="text" id="name" required placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+          <label for="address">Alamat Pengiriman</label>
+          <textarea id="address" rows="3" required placeholder="Alamat lengkap tujuan"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="payment">Metode Pembayaran</label>
+          <select id="payment" required>
+            <option value="transfer">Transfer Bank (BCA / Mandiri)</option>
+            <option value="ewallet">E-Wallet (Gopay / ShopeePay)</option>
+            <option value="cod">Bayar di Tempat (COD)</option>
+          </select>
+        </div>
+        <div class="checkout-summary">
+          <h4>Ringkasan Pembayaran</h4>
+          <p>Total Bayar: <strong id="checkoutTotal">Rp 0</strong></p>
+        </div>
+        <div class="checkout-actions">
+          <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
+          <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Pemanggilan File JavaScript -->
   <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
 </body>
+</html>
 </html>
