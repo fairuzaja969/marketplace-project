@@ -3,31 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace - Keranjang & Checkout</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Marketplace Kelompok</title>
+  <link rel="stylesheet" href="css/products.css">
   <link rel="stylesheet" href="css/cart.css">
 </head>
 <body>
 
-  <!-- Floating Button Keranjang -->
+  <!-- 1. Bagian Katalog Produk -->
+  <section class="catalog-container">
+    <h2>Katalog Produk</h2>
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Cari produk...">
+      <select id="categoryFilter">
+        <option value="all">Semua Kategori</option>
+        <option value="elektronik">Elektronik</option>
+        <option value="pakaian">Pakaian</option>
+        <option value="aksesoris">Aksoris</option>
+      </select>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- 2. Bagian Keranjang Belanja & Floating Button -->
   <div class="cart-floating-btn" onclick="toggleCartModal()">
     🛒 <span id="cartCount">0</span>
   </div>
 
-  <!-- Modal Side Panel Keranjang Belanja -->
   <div class="cart-overlay" id="cartOverlay">
     <div class="cart-modal">
       <div class="cart-header">
         <h2>Keranjang Belanja</h2>
         <button class="close-btn" onclick="toggleCartModal()">&times;</button>
       </div>
-
-      <!-- Daftar Item di Keranjang -->
-      <div class="cart-items" id="cartItems">
-        <!-- Item keranjang di-generate oleh JS -->
-      </div>
-
-      <!-- Rincian Pembayaran -->
+      <div class="cart-items" id="cartItems"></div>
       <div class="cart-footer">
         <div class="total-price">
           <span>Total:</span>
@@ -38,7 +46,7 @@
     </div>
   </div>
 
-  <!-- Modal Form Checkout -->
+  <!-- 3. Bagian Modal Checkout -->
   <div class="checkout-overlay" id="checkoutOverlay">
     <div class="checkout-modal">
       <h2>Form Formulir Checkout</h2>
@@ -59,12 +67,10 @@
             <option value="cod">Bayar di Tempat (COD)</option>
           </select>
         </div>
-        
         <div class="checkout-summary">
           <h4>Ringkasan Pembayaran</h4>
           <p>Total Bayar: <strong id="checkoutTotal">Rp 0</strong></p>
         </div>
-
         <div class="checkout-actions">
           <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
           <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
@@ -73,6 +79,9 @@
     </div>
   </div>
 
+  <!-- 4. Pemanggilan File JavaScript -->
+  <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
 </body>
+</html>
 </html>
