@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - Keranjang & Checkout</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <!-- Floating Button Keranjang -->
+  <div class="cart-floating-btn" onclick="toggleCartModal()">
+    🛒 <span id="cartCount">0</span>
+  </div>
+
+  <!-- Modal Side Panel Keranjang Belanja -->
+  <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-modal">
+      <div class="cart-header">
+        <h2>Keranjang Belanja</h2>
+        <button class="close-btn" onclick="toggleCartModal()">&times;</button>
+      </div>
+
+      <!-- Daftar Item di Keranjang -->
+      <div class="cart-items" id="cartItems">
+        <!-- Item keranjang di-generate oleh JS -->
+      </div>
+
+      <!-- Rincian Pembayaran -->
+      <div class="cart-footer">
+        <div class="total-price">
+          <span>Total:</span>
+          <strong id="cartTotal">Rp 0</strong>
+        </div>
+        <button class="checkout-btn" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Form Checkout -->
+  <div class="checkout-overlay" id="checkoutOverlay">
+    <div class="checkout-modal">
+      <h2>Form Formulir Checkout</h2>
+      <form id="checkoutForm" onsubmit="processCheckout(event)">
+        <div class="form-group">
+          <label for="name">Nama Lengkap</label>
+          <input type="text" id="name" required placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+          <label for="address">Alamat Pengiriman</label>
+          <textarea id="address" rows="3" required placeholder="Alamat lengkap tujuan"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="payment">Metode Pembayaran</label>
+          <select id="payment" required>
+            <option value="transfer">Transfer Bank (BCA / Mandiri)</option>
+            <option value="ewallet">E-Wallet (Gopay / ShopeePay)</option>
+            <option value="cod">Bayar di Tempat (COD)</option>
+          </select>
+        </div>
+        
+        <div class="checkout-summary">
+          <h4>Ringkasan Pembayaran</h4>
+          <p>Total Bayar: <strong id="checkoutTotal">Rp 0</strong></p>
+        </div>
+
+        <div class="checkout-actions">
+          <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
+          <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>
