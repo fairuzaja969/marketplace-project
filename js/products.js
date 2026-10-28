@@ -2,17 +2,17 @@
 const products = [
   {
     id: 1,
-    name: "Mouse Gaming Wireless",
+    name: "PressPlay Spirit PRO 8K",
     category: "elektronik",
-    price: 250000,
-    image: "https://via.placeholder.com/200"
+    price: 790000,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS19l4kjxd-LVzLA_KlTauz8DAdgMxcby3b2K2BKpsbcQ&s=10"
   },
   {
     id: 2,
-    name: "Kaos Polos Cotton Combed",
+    name: "BIMO sama kandang",
     category: "pakaian",
-    price: 75000,
-    image: "https://via.placeholder.com/200"
+    price: 2000,
+    image: "images/bimo.png"
   },
   {
     id: 3,
