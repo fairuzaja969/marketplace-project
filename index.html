@@ -6,6 +6,22 @@
     <title>Ada TeSoed - Solusi Perkakas & Teknik Terlengkap</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                blue: '#1d4ed8',     /* Blue 600 */
+                darkblue: '#1e3a8a', /* Blue 900 */
+                yellow: '#f59e0b',   /* Amber 500 */
+                lightyellow: '#fbbf24' /* Amber 400 */
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/cart.css">
     <style>
@@ -107,7 +123,7 @@
                 <p class="text-lg sm:text-xl text-blue-100 mb-10 leading-relaxed">Ada TeSoed menyediakan mesin industri, alat perbengkelan, dan perlengkapan teknik berkualitas tinggi dengan garansi terjamin.</p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#katalog" class="bg-amber-500 text-slate-900 font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-amber-400 transition text-center">Lihat Katalog Produk</a>
-                    <a href="#fitur" class="bg-blue-800/60 border border-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition text-center">Mengapa Ada Teknik?</a>
+                    <a href="#fitur" class="bg-blue-800/60 border border-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition text-center">Mengapa Ada TeSoed?</a>
                 </div>
             </div>
         </div>
@@ -116,7 +132,7 @@
     <!-- Section Katalog Produk -->
     <section id="katalog" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="catalog-container">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Katalog Produk Teknik</h2>
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Katalog Produk TeSoed</h2>
             <p class="text-slate-600 mb-6">Temukan mesin, perkakas tangan, dan perlengkapan industri sesuai kebutuhan Anda.</p>
             <div class="filter-bar mb-8 flex flex-col md:flex-row gap-4">
                 <input type="text" id="searchInput" placeholder="Cari mesin, bor, las, dll..." class="p-3 border border-slate-300 rounded-xl flex-1 focus:outline-none focus:border-blue-600">
@@ -323,7 +339,7 @@
     <footer class="bg-blue-950 text-slate-300 py-12 text-sm border-t border-blue-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
-                <span class="text-2xl font-black text-white tracking-tight">Ada<span class="text-amber-500">TeSoed</span></span>
+                <span class="text-2xl font-black text-white tracking-tight">Ada<span class="text-amber-500">Teknik</span></span>
                 <p class="text-slate-400 text-xs mt-1">Pusat Peralatan, Mesin, & Perkakas Teknik Terpercaya.</p>
             </div>
             <p>&copy; 2026 Ada TeSoed Indonesia. All rights reserved.</p>
@@ -482,4 +498,48 @@
         const email = f.email.value.trim().toLowerCase();
         const password = f.password.value;
 
-        if (!email || !password) return showBanner('Isi email dan kata sand
+        if (!email || !password) return showBanner('Isi email dan kata sandi.');
+
+        btn.disabled = true;
+        try {
+          const user = getUsers().find(u => u.email === email);
+          const hash = user ? await hashPassword(password, user.salt) : null;
+          if (!user || hash !== user.passwordHash) return showBanner('Email atau kata sandi salah.');
+
+          saveSession(user.email, f.remember.checked);
+          f.reset(); showProfile(user);
+        } catch (err) { showBanner(err.message); }
+        finally { btn.disabled = false; }
+      };
+
+      function showProfile(user) {
+        clearErrors();
+        authEl.classList.add('hidden');
+        profileEl.classList.remove('hidden');
+        $('#hello').textContent = `Halo, ${user.name}!`;
+
+        const rows = [['Email', user.email], ['Peran', user.role === 'seller' ? 'Penjual' : 'Pembeli']];
+        if (user.store_name) rows.push(['Toko', user.store_name]);
+        if (user.phone) rows.push(['Nomor HP', user.phone]);
+
+        const dl = $('#info'); dl.replaceChildren();
+        for (const [label, value] of rows) {
+          const dt = document.createElement('dt'); const dd = document.createElement('dd');
+          dt.textContent = label; dd.textContent = value;
+          dl.append(dt, dd);
+        }
+      }
+
+      $('#logout').onclick = () => {
+        clearSession();
+        profileEl.classList.add('hidden');
+        authEl.classList.remove('hidden');
+        showTab('login');
+      };
+
+      const sessionEmail = getSession();
+      const current = sessionEmail && getUsers().find(u => u.email === sessionEmail);
+      if (current) showProfile(current);
+    </script>
+</body>
+</html>
