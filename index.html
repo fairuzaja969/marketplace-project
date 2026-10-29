@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Masuk atau Daftar · Pasarku</title>
+  <style>
+:root {
+  --bg: #eef2ec; --surface: #ffffff; --ink: #1c2b25; --muted: #5d6d65;
+  --line: #cfd8d1; --brand: #1d6b57; --brand-ink: #ffffff; --accent: #e2a42b;
+  --danger: #b3261e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121a16; --surface: #1b2621; --ink: #e8efe9; --muted: #9db0a5;
+    --line: #33443b; --brand: #3fb596; --brand-ink: #0c1713; --danger: #ff8a80;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 20px;
+  background: var(--bg); color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.card {
+  width: 100%; max-width: 420px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; padding: 28px;
+}
+h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.02em; }
+.sub { margin: 0 0 20px; color: var(--muted); }
+.hidden { display: none !important; }
+
+/* Tab */
+.tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
+.tab {
+  background: none; border: 0; padding: 10px; font: inherit; font-weight: 600;
+  color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* Pilihan peran */
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.roles label { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; font-weight: 600; }
+.roles label small { display: block; font-weight: 400; color: var(--muted); }
+.roles input { position: absolute; opacity: 0; }
+.roles label:has(input:checked) { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+.roles label:has(input:focus-visible) { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Kolom isian */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .92rem; }
+.field input {
+  width: 100%; padding: 11px 12px; font: inherit; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+}
+.field input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.field.invalid input { border-color: var(--danger); }
+.err { color: var(--danger); font-size: .86rem; margin-top: 4px; }
+.check { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; font-size: .92rem; color: var(--muted); }
+
+.pw { position: relative; }
+.pw input { padding-right: 96px; }
+.pw button {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; color: var(--brand); font: inherit; font-size: .88rem;
+  font-weight: 600; cursor: pointer; padding: 6px;
+}
+
+/* Tombol */
+.btn {
+  width: 100%; padding: 12px; font: inherit; font-weight: 700; cursor: pointer;
+  background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px;
+}
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn.ghost { background: none; color: var(--ink); border: 1px solid var(--line); }
+.btn:focus-visible, .tab:focus-visible, .pw button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.banner {
+  padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; font-size: .92rem;
+  background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger);
+}
+
+/* Profil */
+.profile dl { margin: 16px 0 20px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+.profile dt { color: var(--muted); }
+.profile dd { margin: 0; font-weight: 600; word-break: break-word; }
+
+:root[data-theme="dark"] {
+  --bg: #121a16; --surface: #1b2621; --ink: #e8efe9; --muted: #9db0a5;
+  --line: #33443b; --brand: #3fb596; --brand-ink: #0c1713; --danger: #ff8a80;
+}
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <!-- Tampil setelah berhasil masuk -->
+  <section id="profile" class="profile hidden">
+    <h1 id="hello">Halo!</h1>
+    <p class="sub">Kamu sudah masuk.</p>
+    <dl id="info"></dl>
+    <button class="btn ghost" id="logout" type="button">Keluar</button>
+  </section>
+
+  <!-- Form masuk & daftar -->
+  <section id="auth">
+    <h1>Pasarku</h1>
+    <p class="sub">Masuk untuk belanja atau berjualan.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-login" aria-selected="true" aria-controls="login-form" type="button">Masuk</button>
+      <button class="tab" role="tab" id="tab-register" aria-selected="false" aria-controls="register-form" type="button">Daftar</button>
+    </div>
+
+    <div id="banner" class="banner hidden" role="alert"></div>
+
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="l-email">Email</label>
+        <input id="l-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="l-pass">Kata sandi</label>
+        <div class="pw">
+          <input id="l-pass" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" data-toggle="l-pass">Lihat</button>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" name="remember"> Ingat saya di perangkat ini</label>
+      <button class="btn" type="submit">Masuk</button>
+    </form>
+
+    <form id="register-form" class="hidden" novalidate>
+      <div class="roles" role="radiogroup" aria-label="Daftar sebagai">
+        <label><input type="radio" name="role" value="buyer" checked>Pembeli<small>Belanja produk</small></label>
+        <label><input type="radio" name="role" value="seller">Penjual<small>Buka toko</small></label>
+      </div>
+      <div class="field">
+        <label for="r-name">Nama lengkap</label>
+        <input id="r-name" name="name" autocomplete="name" required>
+        <div class="err"></div>
+      </div>
+      <div class="field hidden" id="store-field">
+        <label for="r-store">Nama toko</label>
+        <input id="r-store" name="store_name">
+        <div class="err"></div>
+      </div>
+      <div class="field">
+        <label for="r-email">Email</label>
+        <input id="r-email" name="email" type="email" autocomplete="email" required>
+        <div class="err"></div>
+      </div>
+      <div class="field">
+        <label for="r-phone">Nomor HP (opsional)</label>
+        <input id="r-phone" name="phone" type="tel" autocomplete="tel" placeholder="081234567890">
+        <div class="err"></div>
+      </div>
+      <div class="field">
+        <label for="r-pass">Kata sandi</label>
+        <div class="pw">
+          <input id="r-pass" name="password" type="password" autocomplete="new-password" required>
+          <button type="button" data-toggle="r-pass">Lihat</button>
+        </div>
+        <div class="err"></div>
+      </div>
+      <div class="field">
+        <label for="r-pass2">Ulangi kata sandi</label>
+        <input id="r-pass2" name="password2" type="password" autocomplete="new-password" required>
+        <div class="err"></div>
+      </div>
+      <button class="btn" type="submit">Buat akun</button>
+    </form>
+  </section>
+</main>
+
+<script>
+// ============================================================
+// PERHATIAN: ini versi demo tanpa server. Data akun disimpan di
+// localStorage browser, jadi TIDAK aman untuk marketplace sungguhan.
+// Untuk produksi, pindahkan proses login/daftar ke backend.
+// ============================================================
+
+const USERS_KEY = 'pasarku_users';
+const SESSION_KEY = 'pasarku_session';
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const authEl = $('#auth');
+const profileEl = $('#profile');
+const banner = $('#banner');
+const forms = { login: $('#login-form'), register: $('#register-form') };
+
+/* ---------- Penyimpanan ---------- */
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
+  catch { return []; }
+}
+function saveUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+function saveSession(email, remember) {
+  localStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
+  (remember ? localStorage : sessionStorage).setItem(SESSION_KEY, email);
+}
+function getSession() {
+  return sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
+}
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
+}
+
+/* ---------- Hash kata sandi (SHA-256 + salt) ---------- */
+async function hashPassword(password, salt) {
+  if (!window.crypto?.subtle) {
+    throw new Error('Browser ini tidak mendukung enkripsi. Buka lewat localhost atau HTTPS.');
+  }
+  const data = new TextEncoder().encode(salt + password);
+  const buf = await crypto.subtle.digest('SHA-256', data);
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function randomSalt() {
+  return [...crypto.getRandomValues(new Uint8Array(16))]
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/* ---------- Validasi ---------- */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^(\+62|62|0)8[0-9]{8,12}$/;
+
+function validateRegister(d) {
+  const errors = {};
+  if (d.name.length < 2 || d.name.length > 60) errors.name = 'Nama harus 2–60 karakter.';
+  if (!EMAIL_RE.test(d.email)) errors.email = 'Format email tidak valid.';
+  if (d.phone && !PHONE_RE.test(d.phone)) errors.phone = 'Nomor HP tidak valid (contoh: 081234567890).';
+  if (d.password.length < 8) errors.password = 'Kata sandi minimal 8 karakter.';
+  else if (!/[A-Za-z]/.test(d.password) || !/[0-9]/.test(d.password))
+    errors.password = 'Kata sandi harus mengandung huruf dan angka.';
+  if (d.password !== d.password2) errors.password2 = 'Kata sandi tidak sama.';
+  if (d.role === 'seller' && (d.store_name.length < 3 || d.store_name.length > 40))
+    errors.store_name = 'Nama toko harus 3–40 karakter.';
+  return errors;
+}
+
+/* ---------- Tampilan error ---------- */
+function clearErrors() {
+  banner.classList.add('hidden');
+  document.querySelectorAll('.field').forEach(f => {
+    f.classList.remove('invalid');
+    const e = $('.err', f);
+    if (e) e.textContent = '';
+  });
+}
+function showFieldErrors(errors) {
+  clearErrors();
+  for (const [name, msg] of Object.entries(errors)) {
+    const field = $(`#register-form [name="${name}"]`)?.closest('.field');
+    if (!field) continue;
+    field.classList.add('invalid');
+    $('.err', field).textContent = msg;
+  }
+  $('#register-form .invalid input')?.focus();
+}
+function showBanner(message) {
+  clearErrors();
+  banner.textContent = message;
+  banner.classList.remove('hidden');
+}
+
+/* ---------- Tab, lihat sandi, pilihan peran ---------- */
+function showTab(name) {
+  for (const [key, form] of Object.entries(forms)) {
+    form.classList.toggle('hidden', key !== name);
+    $('#tab-' + key).setAttribute('aria-selected', String(key === name));
+  }
+  clearErrors();
+}
+$('#tab-login').onclick = () => showTab('login');
+$('#tab-register').onclick = () => showTab('register');
+
+document.querySelectorAll('[data-toggle]').forEach(btn => {
+  btn.onclick = () => {
+    const input = document.getElementById(btn.dataset.toggle);
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    btn.textContent = show ? 'Sembunyikan' : 'Lihat';
+  };
+});
+
+document.querySelectorAll('input[name="role"]').forEach(radio => {
+  radio.onchange = () => {
+    const isSeller = $('input[name="role"]:checked').value === 'seller';
+    $('#store-field').classList.toggle('hidden', !isSeller);
+  };
+});
+
+/* ---------- Daftar ---------- */
+forms.register.onsubmit = async (e) => {
+  e.preventDefault();
+  const f = forms.register;
+  const btn = $('.btn', f);
+  const raw = new FormData(f);
+  const role = raw.get('role') === 'seller' ? 'seller' : 'buyer';
+  const data = {
+    name: String(raw.get('name')).trim(),
+    email: String(raw.get('email')).trim().toLowerCase(),
+    phone: String(raw.get('phone')).replace(/[\s-]/g, ''),
+    password: String(raw.get('password')),
+    password2: String(raw.get('password2')),
+    role,
+    store_name: role === 'seller' ? String(raw.get('store_name')).trim() : '',
+  };
+
+  const errors = validateRegister(data);
+  if (Object.keys(errors).length) return showFieldErrors(errors);
+
+  const users = getUsers();
+  if (users.some(u => u.email === data.email))
+    return showFieldErrors({ email: 'Email sudah terdaftar. Silakan masuk.' });
+
+  btn.disabled = true;
+  try {
+    const salt = randomSalt();
+    const user = {
+      id: Date.now(),
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      role: data.role,
+      store_name: data.store_name || null,
+      salt,
+      passwordHash: await hashPassword(data.password, salt),
+      createdAt: new Date().toISOString(),
+    };
+    users.push(user);
+    saveUsers(users);
+    saveSession(user.email, true);
+    f.reset();
+    $('#store-field').classList.add('hidden');
+    showProfile(user);
+  } catch (err) {
+    showBanner(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+/* ---------- Masuk ---------- */
+forms.login.onsubmit = async (e) => {
+  e.preventDefault();
+  const f = forms.login;
+  const btn = $('.btn', f);
+  const email = f.email.value.trim().toLowerCase();
+  const password = f.password.value;
+
+  if (!email || !password) return showBanner('Isi email dan kata sandi.');
+
+  btn.disabled = true;
+  try {
+    const user = getUsers().find(u => u.email === email);
+    const hash = user ? await hashPassword(password, user.salt) : null;
+    // Pesan sama untuk email salah dan sandi salah
+    if (!user || hash !== user.passwordHash)
+      return showBanner('Email atau kata sandi salah.');
+
+    saveSession(user.email, f.remember.checked);
+    f.reset();
+    showProfile(user);
+  } catch (err) {
+    showBanner(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+/* ---------- Profil & keluar ---------- */
+function showProfile(user) {
+  clearErrors();
+  authEl.classList.add('hidden');
+  profileEl.classList.remove('hidden');
+  $('#hello').textContent = `Halo, ${user.name}!`;
+
+  const rows = [
+    ['Email', user.email],
+    ['Peran', user.role === 'seller' ? 'Penjual' : 'Pembeli'],
+  ];
+  if (user.store_name) rows.push(['Toko', user.store_name]);
+  if (user.phone) rows.push(['Nomor HP', user.phone]);
+
+  const dl = $('#info');
+  dl.replaceChildren();
+  for (const [label, value] of rows) {
+    const dt = document.createElement('dt');
+    const dd = document.createElement('dd');
+    dt.textContent = label;
+    dd.textContent = value; // textContent mencegah XSS
+    dl.append(dt, dd);
+  }
+}
+
+$('#logout').onclick = () => {
+  clearSession();
+  profileEl.classList.add('hidden');
+  authEl.classList.remove('hidden');
+  showTab('login');
+};
+
+/* ---------- Cek sesi saat halaman dibuka ---------- */
+const sessionEmail = getSession();
+const current = sessionEmail && getUsers().find(u => u.email === sessionEmail);
+if (current) showProfile(current);
+</script>
+</body>
+</html>
