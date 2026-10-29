@@ -2,7 +2,7 @@
 const products = [
   {
     id: 1,
-    name: "Mesin Bor Tangan Listrik 13mm",
+name: "Mesin Bor Tangan Listrik 13mm",
     category: "elektronik",
     price: 350000,
     image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500"
@@ -25,9 +25,10 @@ const products = [
     id: 4,
     name: "Helm Safety Proyek SNI + Tali Dagu",
     category: "aksesoris",
-    price: 45000,
+price: 45000,
     image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500"
   }
+];
 ];
 
 // Menampilkan Produk ke Grid
@@ -80,6 +81,46 @@ function setupFilters() {
 
   if (searchInput) searchInput.addEventListener("input", filterData);
   if (categoryFilter) categoryFilter.addEventListener("change", filterData);
+}
+
+// Fungsi Tambah Produk ke Keranjang (Terhubung dengan cart.js)
+function addToCart(productId) {
+  // 1. Cari data produk berdasarkan ID
+  const productToAdd = products.find(p => p.id === productId);
+
+  if (!productToAdd) return;
+
+  // 2. Ambil data keranjang dari LocalStorage
+  let currentCart = JSON.parse(localStorage.getItem("ada_tesoed_cart")) || [];
+
+  // 3. Cek apakah produk sudah ada di keranjang
+  const existingItemIndex = currentCart.findIndex(item => item.id === productId);
+
+  if (existingItemIndex > -1) {
+    // Jika sudah ada, tambahkan jumlahnya (quantity)
+    currentCart[existingItemIndex].quantity += 1;
+  } else {
+    // Jika belum ada, masukkan produk baru ke keranjang
+    currentCart.push({
+      id: productToAdd.id,
+      name: productToAdd.name,
+      price: productToAdd.price,
+      quantity: 1
+    });
+  }
+
+  // 4. Simpan kembali ke LocalStorage
+  localStorage.setItem("ada_tesoed_cart", JSON.stringify(currentCart));
+
+  // 5. Perbarui tampilan keranjang jika fungsi renderCart dari cart.js ada
+  if (typeof renderCart === 'function') {
+    if (typeof cart !== 'undefined') {
+      cart = currentCart;
+    }
+    renderCart();
+  }
+
+  alert(`${productToAdd.name} berhasil ditambahkan ke keranjang!`);
 }
 
 // Inisialisasi Produk saat Halaman Dimuat
