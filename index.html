@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +8,69 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/cart.css">
+    <style>
+      :root {
+        --bg: #eef2ec; --surface: #ffffff; --ink: #1c2b25; --muted: #5d6d65;
+        --line: #cfd8d1; --brand: #1d6b57; --brand-ink: #ffffff; --accent: #e2a42b;
+        --danger: #b3261e;
+      }
+      .auth-overlay {
+        position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 1000; padding: 20px;
+      }
+      .card-auth {
+        width: 100%; max-width: 420px; background: var(--surface);
+        border: 1px solid var(--line); border-radius: 14px; padding: 28px;
+        position: relative; color: var(--ink);
+      }
+      .card-auth h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.02em; }
+      .card-auth .sub { margin: 0 0 20px; color: var(--muted); }
+      
+      .tabs-auth { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
+      .tab-auth {
+        background: none; border: 0; padding: 10px; font: inherit; font-weight: 600;
+        color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+      }
+      .tab-auth[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+      
+      .roles-auth { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+      .roles-auth label { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; font-weight: 600; }
+      .roles-auth label small { display: block; font-weight: 400; color: var(--muted); }
+      .roles-auth input { position: absolute; opacity: 0; }
+      .roles-auth label:has(input:checked) { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+      
+      .field-auth { margin-bottom: 14px; }
+      .field-auth label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .92rem; }
+      .field-auth input {
+        width: 100%; padding: 11px 12px; font: inherit; color: var(--ink);
+        background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+      }
+      .field-auth.invalid input { border-color: var(--danger); }
+      .err-auth { color: var(--danger); font-size: .86rem; margin-top: 4px; }
+      .check-auth { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; font-size: .92rem; color: var(--muted); }
+      
+      .pw-auth { position: relative; }
+      .pw-auth input { padding-right: 96px; }
+      .pw-auth button {
+        position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+        background: none; border: 0; color: var(--brand); font: inherit; font-size: .88rem;
+        font-weight: 600; cursor: pointer; padding: 6px;
+      }
+      
+      .btn-auth {
+        width: 100%; padding: 12px; font: inherit; font-weight: 700; cursor: pointer;
+        background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px;
+      }
+      .btn-auth.ghost { background: none; color: var(--ink); border: 1px solid var(--line); }
+      .banner-auth {
+        padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; font-size: .92rem;
+        background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger);
+      }
+      .close-auth-btn {
+        position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted);
+      }
+    </style>
 </head> 
 <body class="bg-slate-50 text-slate-800 font-sans">
 
@@ -24,8 +86,8 @@
                 <a href="#cara-kerja" class="hover:text-indigo-600 transition">Cara Kerja</a>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="#" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition">Masuk</a>
-                <a href="#" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">Mulai Gratis</a>
+                <button onclick="toggleAuthModal()" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition">Masuk</button>
+                <button onclick="toggleAuthModal('register')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">Mulai Gratis</button>
             </div>
         </div>
     </nav>
@@ -96,5 +158,321 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                 <div class="relative">
-                    <div class="text-4xl
-</html>
+                    <div class="text-4xl font-black text-indigo-100 mb-4">01</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Buat Akun</h3>
+                    <p class="text-slate-600 text-sm">Daftar dalam hitungan detik menggunakan email atau nomor telepon aktif Anda.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-4xl font-black text-indigo-100 mb-4">02</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Pilih Produk</h3>
+                    <p class="text-slate-600 text-sm">Temukan barang impian Anda dan masukkan ke dalam keranjang belanja.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-4xl font-black text-indigo-100 mb-4">03</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Mulai Bertransaksi</h3>
+                    <p class="text-slate-600 text-sm">Nikmati kemudahan belanja atau kembangkan bisnis Anda secara global.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Login / Register Pop-up -->
+    <div id="authOverlay" class="auth-overlay hidden">
+      <main class="card-auth">
+        <button class="close-auth-btn" onclick="toggleAuthModal()">&times;</button>
+        <section id="profile" class="profile hidden">
+          <h1 id="hello">Halo!</h1>
+          <p class="sub">Kamu sudah masuk.</p>
+          <dl id="info"></dl>
+          <button class="btn-auth ghost" id="logout" type="button">Keluar</button>
+        </section>
+
+        <section id="auth">
+          <h1>StoreHub</h1>
+          <p class="sub">Masuk untuk belanja atau berjualan.</p>
+          <div class="tabs-auth" role="tablist">
+            <button class="tab-auth" role="tab" id="tab-login" aria-selected="true" type="button">Masuk</button>
+            <button class="tab-auth" role="tab" id="tab-register" aria-selected="false" type="button">Daftar</button>
+          </div>
+          <div id="banner" class="banner-auth hidden" role="alert"></div>
+
+          <form id="login-form" novalidate>
+            <div class="field-auth">
+              <label for="l-email">Email</label>
+              <input id="l-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field-auth">
+              <label for="l-pass">Kata sandi</label>
+              <div class="pw-auth">
+                <input id="l-pass" name="password" type="password" autocomplete="current-password" required>
+                <button type="button" data-toggle="l-pass">Lihat</button>
+              </div>
+            </div>
+            <label class="check-auth"><input type="checkbox" name="remember"> Ingat saya di perangkat ini</label>
+            <button class="btn-auth" type="submit">Masuk</button>
+          </form>
+
+          <form id="register-form" class="hidden" novalidate>
+            <div class="roles-auth" role="radiogroup">
+              <label><input type="radio" name="role" value="buyer" checked>Pembeli<small>Belanja produk</small></label>
+              <label><input type="radio" name="role" value="seller">Penjual<small>Buka toko</small></label>
+            </div>
+            <div class="field-auth">
+              <label for="r-name">Nama lengkap</label>
+              <input id="r-name" name="name" required>
+              <div class="err-auth"></div>
+            </div>
+            <div class="field-auth hidden" id="store-field">
+              <label for="r-store">Nama toko</label>
+              <input id="r-store" name="store_name">
+              <div class="err-auth"></div>
+            </div>
+            <div class="field-auth">
+              <label for="r-email">Email</label>
+              <input id="r-email" name="email" type="email" required>
+              <div class="err-auth"></div>
+            </div>
+            <div class="field-auth">
+              <label for="r-phone">Nomor HP (opsional)</label>
+              <input id="r-phone" name="phone" type="tel" placeholder="081234567890">
+              <div class="err-auth"></div>
+            </div>
+            <div class="field-auth">
+              <label for="r-pass">Kata sandi</label>
+              <div class="pw-auth">
+                <input id="r-pass" name="password" type="password" required>
+                <button type="button" data-toggle="r-pass">Lihat</button>
+              </div>
+              <div class="err-auth"></div>
+            </div>
+            <div class="field-auth">
+              <label for="r-pass2">Ulangi kata sandi</label>
+              <input id="r-pass2" name="password2" type="password" required>
+              <div class="err-auth"></div>
+            </div>
+            <button class="btn-auth" type="submit">Buat akun</button>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <!-- Floating Button Keranjang Belanja -->
+    <div class="cart-floating-btn" onclick="toggleCartModal()">
+        🛒 <span id="cartCount">0</span>
+    </div>
+
+    <!-- Modal Keranjang Belanja -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-modal">
+            <div class="cart-header">
+                <h2>Keranjang Belanja</h2>
+                <button class="close-btn" onclick="toggleCartModal()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-footer">
+                <div class="total-price">
+                    <span>Total:</span>
+                    <strong id="cartTotal">Rp 0</strong>
+                </div>
+                <button class="checkout-btn" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Checkout -->
+    <div class="checkout-overlay" id="checkoutOverlay">
+        <div class="checkout-modal">
+            <h2>Form Formulir Checkout</h2>
+            <form id="checkoutForm" onsubmit="processCheckout(event)">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" required placeholder="Masukkan nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label for="address">Alamat Pengiriman</label>
+                    <textarea id="address" rows="3" required placeholder="Alamat lengkap tujuan"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment">Metode Pembayaran</label>
+                    <select id="payment" required>
+                        <option value="transfer">Transfer Bank (BCA / Mandiri)</option>
+                        <option value="ewallet">E-Wallet (Gopay / ShopeePay)</option>
+                        <option value="cod">Bayar di Tempat (COD)</option>
+                    </select>
+                </div>
+                <div class="checkout-summary">
+                    <h4>Ringkasan Pembayaran</h4>
+                    <p>Total Bayar: <strong id="checkoutTotal">Rp 0</strong></p>
+                </div>
+                <div class="checkout-actions">
+                    <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
+                    <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-sm border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-black text-white tracking-tight">Store<span class="text-indigo-400">Hub</span></span>
+                <p class="text-slate-500 text-xs mt-1">Platform E-Commerce Terintegrasi Modern.</p>
+            </div>
+            <p>&copy; 2026 StoreHub Indonesia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Pemanggilan File JavaScript -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+      function toggleAuthModal(defaultTab = 'login') {
+        const overlay = document.getElementById('authOverlay');
+        const isHidden = overlay.classList.contains('hidden');
+        if (isHidden) {
+          overlay.classList.remove('hidden');
+          showTab(defaultTab);
+        } else {
+          overlay.classList.add('hidden');
+        }
+      }
+
+      const USERS_KEY = 'pasarku_users';
+      const SESSION_KEY = 'pasarku_session';
+
+      const $ = (sel, root = document) => root.querySelector(sel);
+      const authEl = $('#auth');
+      const profileEl = $('#profile');
+      const banner = $('#banner');
+      const forms = { login: $('#login-form'), register: $('#register-form') };
+
+      function getUsers() {
+        try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
+        catch { return []; }
+      }
+      function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+      function saveSession(email, remember) {
+        localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY);
+        (remember ? localStorage : sessionStorage).setItem(SESSION_KEY, email);
+      }
+      function getSession() { return sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY); }
+      function clearSession() { localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY); }
+
+      async function hashPassword(password, salt) {
+        if (!window.crypto?.subtle) throw new Error('Browser tidak mendukung enkripsi.');
+        const data = new TextEncoder().encode(salt + password);
+        const buf = await crypto.subtle.digest('SHA-256', data);
+        return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+      function randomSalt() {
+        return [...crypto.getRandomValues(new Uint8Array(16))].map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const PHONE_RE = /^(\+62|62|0)8[0-9]{8,12}$/;
+
+      function validateRegister(d) {
+        const errors = {};
+        if (d.name.length < 2 || d.name.length > 60) errors.name = 'Nama harus 2–60 karakter.';
+        if (!EMAIL_RE.test(d.email)) errors.email = 'Format email tidak valid.';
+        if (d.phone && !PHONE_RE.test(d.phone)) errors.phone = 'Nomor HP tidak valid.';
+        if (d.password.length < 8) errors.password = 'Kata sandi minimal 8 karakter.';
+        else if (!/[A-Za-z]/.test(d.password) || !/[0-9]/.test(d.password)) errors.password = 'Kata sandi harus mengandung huruf & angka.';
+        if (d.password !== d.password2) errors.password2 = 'Kata sandi tidak sama.';
+        if (d.role === 'seller' && (d.store_name.length < 3 || d.store_name.length > 40)) errors.store_name = 'Nama toko 3–40 karakter.';
+        return errors;
+      }
+
+      function clearErrors() {
+        banner.classList.add('hidden');
+        document.querySelectorAll('.field-auth').forEach(f => {
+          f.classList.remove('invalid');
+          const e = $('.err-auth', f);
+          if (e) e.textContent = '';
+        });
+      }
+      function showFieldErrors(errors) {
+        clearErrors();
+        for (const [name, msg] of Object.entries(errors)) {
+          const field = $(`#register-form [name="${name}"]`)?.closest('.field-auth');
+          if (!field) continue;
+          field.classList.add('invalid');
+          $('.err-auth', field).textContent = msg;
+        }
+      }
+      function showBanner(message) {
+        clearErrors(); banner.textContent = message; banner.classList.remove('hidden');
+      }
+
+      function showTab(name) {
+        for (const [key, form] of Object.entries(forms)) {
+          form.classList.toggle('hidden', key !== name);
+          $('#tab-' + key).setAttribute('aria-selected', String(key === name));
+        }
+        clearErrors();
+      }
+      $('#tab-login').onclick = () => showTab('login');
+      $('#tab-register').onclick = () => showTab('register');
+
+      document.querySelectorAll('[data-toggle]').forEach(btn => {
+        btn.onclick = () => {
+          const input = document.getElementById(btn.dataset.toggle);
+          const show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          btn.textContent = show ? 'Sembunyikan' : 'Lihat';
+        };
+      });
+
+      document.querySelectorAll('input[name="role"]').forEach(radio => {
+        radio.onchange = () => {
+          const isSeller = $('input[name="role"]:checked').value === 'seller';
+          $('#store-field').classList.toggle('hidden', !isSeller);
+        };
+      });
+
+      forms.register.onsubmit = async (e) => {
+        e.preventDefault();
+        const f = forms.register;
+        const btn = $('.btn-auth', f);
+        const raw = new FormData(f);
+        const role = raw.get('role') === 'seller' ? 'seller' : 'buyer';
+        const data = {
+          name: String(raw.get('name')).trim(),
+          email: String(raw.get('email')).trim().toLowerCase(),
+          phone: String(raw.get('phone')).replace(/[\s-]/g, ''),
+          password: String(raw.get('password')),
+          password2: String(raw.get('password2')),
+          role,
+          store_name: role === 'seller' ? String(raw.get('store_name')).trim() : '',
+        };
+
+        const errors = validateRegister(data);
+        if (Object.keys(errors).length) return showFieldErrors(errors);
+
+        const users = getUsers();
+        if (users.some(u => u.email === data.email)) return showFieldErrors({ email: 'Email sudah terdaftar.' });
+
+        btn.disabled = true;
+        try {
+          const salt = randomSalt();
+          const user = {
+            id: Date.now(), name: data.name, email: data.email, phone: data.phone || null,
+            role: data.role, store_name: data.store_name || null, salt,
+            passwordHash: await hashPassword(data.password, salt), createdAt: new Date().toISOString(),
+          };
+          users.push(user); saveUsers(users); saveSession(user.email, true);
+          f.reset(); $('#store-field').classList.add('hidden');
+          showProfile(user);
+        } catch (err) { showBanner(err.message); }
+        finally { btn.disabled = false; }
+      };
+
+      forms.login.onsubmit = async (e) => {
+        e.preventDefault();
+        const f = forms.login;
+        const btn = $('.btn-auth', f);
+        const email = f.email.value.trim().toLowerCase();
+        const password = f.password.value;
+
+        if (!email || !password) return showBanner('Isi email dan kata sand
