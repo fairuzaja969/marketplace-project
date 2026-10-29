@@ -1,26 +1,51 @@
-// Mengambil data keranjang dari LocalStorage (jika ada)
-let cart = JSON.parse(localStorage.getItem("cartData")) || [];
+// Mengambil data keranjang dari LocalStorage
+let cart = JSON.parse(localStorage.getItem("ada_teknik_cart")) || [];
 
-// 1. Fungsi Tampil / Sembunyi Modal Keranjang
+// Fungsi Tambah Produk ke Keranjang
+function addToCart(productId) {
+  const productToAdd = products.find(p => p.id === productId);
+  if (!productToAdd) return;
+
+  const existingIndex = cart.findIndex(item => item.id === productId);
+
+  if (existingIndex > -1) {
+    cart[existingIndex].quantity += 1;
+  } else {
+    cart.push({
+      id: productToAdd.id,
+      name: productToAdd.name,
+      price: productToAdd.price,
+      quantity: 1
+    });
+  }
+
+  saveAndRenderCart();
+  alert(`${productToAdd.name} berhasil ditambahkan ke keranjang!`);
+}
+
+// Buka/Tutup Modal Keranjang
 function toggleCartModal() {
   const overlay = document.getElementById("cartOverlay");
+  if (!overlay) return;
   const isVisible = overlay.style.display === "flex";
   overlay.style.display = isVisible ? "none" : "flex";
   renderCart();
 }
 
-// 2. Fungsi Memperbarui Tampilan Keranjang
+// Render Item Keranjang
 function renderCart() {
   const cartItemsContainer = document.getElementById("cartItems");
   const cartCount = document.getElementById("cartCount");
   const cartTotal = document.getElementById("cartTotal");
+
+  if (!cartItemsContainer) return;
 
   cartItemsContainer.innerHTML = "";
   let total = 0;
   let totalCount = 0;
 
   if (cart.length === 0) {
-    cartItemsContainer.innerHTML = "<p style='text-align:center; color:#888;'>Keranjang kamu masih kosong.</p>";
+    cartItemsContainer.innerHTML = "<p style='text-align:center; color:#888;'>Keranjang belanja masih kosong.</p>";
   } else {
     cart.forEach((item, index) => {
       total += item.price * item.quantity;
@@ -37,72 +62,66 @@ function renderCart() {
           <button onclick="updateQuantity(${index}, -1)">-</button>
           <span>${item.quantity}</span>
           <button onclick="updateQuantity(${index}, 1)">+</button>
-          <button onclick="removeItem(${index})" style="color:red; margin-left:5px;">&times;</button>
+          <button onclick="removeItem(${index})" style="color:red; margin-left:5px; border:none; background:none; cursor:pointer;">&times;</button>
         </div>
       `;
       cartItemsContainer.appendChild(itemElement);
     });
   }
 
-  cartCount.innerText = totalCount;
-  cartTotal.innerText = `Rp ${total.toLocaleString("id-ID")}`;
-  
-  // Simpan data keranjang ke LocalStorage
-  localStorage.setItem("cartData", JSON.stringify(cart));
+  if (cartCount) cartCount.innerText = totalCount;
+  if (cartTotal) cartTotal.innerText = `Rp ${total.toLocaleString("id-ID")}`;
 }
 
-// 3. Fungsi Tambah/Kurang Jumlah Barang
 function updateQuantity(index, change) {
   cart[index].quantity += change;
   if (cart[index].quantity <= 0) {
     cart.splice(index, 1);
   }
-  renderCart();
+  saveAndRenderCart();
 }
 
-// 4. Fungsi Hapus Item dari Keranjang
 function removeItem(index) {
   cart.splice(index, 1);
+  saveAndRenderCart();
+}
+
+function saveAndRenderCart() {
+  localStorage.setItem("ada_teknik_cart", JSON.stringify(cart));
   renderCart();
 }
 
-// 5. Fungsi Membuka Modal Checkout
+// Fungsi Checkout
 function openCheckoutModal() {
   if (cart.length === 0) {
-    alert("Keranjang kamu masih kosong!");
+    alert("Keranjang belanja kamu masih kosong!");
     return;
   }
-  
-  toggleCartModal(); // Tutup panel keranjang
-  
-  // Hitung Total untuk Checkout
+  toggleCartModal();
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  document.getElementById("checkoutTotal").innerText = `Rp ${total.toLocaleString("id-ID")}`;
+  const checkoutTotal = document.getElementById("checkoutTotal");
+  if (checkoutTotal) checkoutTotal.innerText = `Rp ${total.toLocaleString("id-ID")}`;
   
   document.getElementById("checkoutOverlay").style.display = "flex";
 }
 
-// 6. Fungsi Menutup Modal Checkout
 function closeCheckoutModal() {
   document.getElementById("checkoutOverlay").style.display = "none";
 }
 
-// 7. Fungsi Memproses Formulir Checkout
 function processCheckout(event) {
   event.preventDefault();
-
   const name = document.getElementById("name").value;
   const address = document.getElementById("address").value;
-  const payment = document.getElementById("payment").value;
 
-  alert(`Terima kasih ${name}!\nPesanan kamu berhasil dibuat.\n\nAlamat: ${address}\nPembayaran: ${payment}`);
+  alert(`Terima kasih ${name}!\nPesanan produk teknik Anda berhasil dibuat dan siap dikirim ke: ${address}`);
 
-  // Kosongkan Keranjang setelah Checkout Selesai
   cart = [];
-  localStorage.removeItem("cartData");
+  localStorage.removeItem("ada_teknik_cart");
   renderCart();
   closeCheckoutModal();
 }
 
-// Jalankan saat pertama kali halaman dimuat untuk menghitung item yang tersimpan
-renderCart();
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+});

@@ -1,0 +1,17 @@
+/* Styling Halaman Umum & Smooth Scroll Ada Teknik */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Utilities */
+.hidden {
+  display: none !important;
+}

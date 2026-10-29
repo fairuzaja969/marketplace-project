@@ -1,0 +1,63 @@
+/* Styling Modal Login & Register Pop-up */
+.auth-overlay {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+
+.card-auth {
+  width: 100%; max-width: 420px; background: #ffffff;
+  border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px;
+  position: relative; color: #0f172a;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.card-auth h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.02em; font-weight: 800; }
+.card-auth .sub { margin: 0 0 20px; color: #64748b; }
+
+.tabs-auth { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; }
+.tab-auth {
+  background: none; border: 0; padding: 10px; font: inherit; font-weight: 600;
+  color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.tab-auth[aria-selected="true"] { color: #1d4ed8; border-bottom-color: #f59e0b; }
+
+.roles-auth { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.roles-auth label { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; cursor: pointer; font-weight: 600; }
+.roles-auth label small { display: block; font-weight: 400; color: #64748b; }
+.roles-auth input { position: absolute; opacity: 0; }
+.roles-auth label:has(input:checked) { border-color: #1d4ed8; box-shadow: inset 0 0 0 1px #1d4ed8; background-color: #eff6ff; }
+
+.field-auth { margin-bottom: 14px; }
+.field-auth label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .92rem; }
+.field-auth input {
+  width: 100%; padding: 11px 12px; font: inherit; color: #0f172a;
+  background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px;
+}
+.field-auth.invalid input { border-color: #ef4444; }
+.err-auth { color: #ef4444; font-size: .86rem; margin-top: 4px; }
+.check-auth { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; font-size: .92rem; color: #64748b; }
+
+.pw-auth { position: relative; }
+.pw-auth input { padding-right: 96px; }
+.pw-auth button {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; color: #1d4ed8; font: inherit; font-size: .88rem;
+  font-weight: 600; cursor: pointer; padding: 6px;
+}
+
+.btn-auth {
+  width: 100%; padding: 12px; font: inherit; font-weight: 700; cursor: pointer;
+  background: #1d4ed8; color: #ffffff; border: 0; border-radius: 8px;
+  transition: background-color 0.2s;
+}
+.btn-auth:hover { background-color: #1e40af; }
+.btn-auth.ghost { background: none; color: #0f172a; border: 1px solid #cbd5e1; }
+.banner-auth {
+  padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; font-size: .92rem;
+  background: rgba(239, 68, 68, 0.1); color: #ef4444;
+}
+.close-auth-btn {
+  position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #64748b;
+}
