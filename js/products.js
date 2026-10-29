@@ -1,87 +1,89 @@
-// Data Dummy Produk
+// Data Dummy Produk Teknik untuk Ada Teknik
 const products = [
   {
     id: 1,
-    name: "PressPlay Spirit PRO 8K",
+    name: "Mesin Bor Tangan Listrik 13mm",
     category: "elektronik",
-    price: 790000,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS19l4kjxd-LVzLA_KlTauz8DAdgMxcby3b2K2BKpsbcQ&s=10"
+    price: 350000,
+    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500"
   },
   {
     id: 2,
-    name: "BIMO sama kandang",
-    category: "pakaian",
-    price: 2000,
-    image: "images/bimo.png"
+    name: "Mesin Las Inverter IGBT 120A",
+    category: "elektronik",
+    price: 850000,
+    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500"
   },
   {
     id: 3,
-    name: "Keyboard Mechanical RGB",
-    category: "elektronik",
-    price: 450000,
-    image: "https://via.placeholder.com/200"
+    name: "Kunci Pas Set 8-24mm (Chrome Vanadium)",
+    category: "pakaian", // Handtools
+    price: 185000,
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500"
   },
   {
     id: 4,
-    name: "Topi Snapback Kasual",
+    name: "Helm Safety Proyek SNI + Tali Dagu",
     category: "aksesoris",
-    price: 50000,
-    image: "https://via.placeholder.com/200"
+    price: 45000,
+    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500"
   }
 ];
 
-// Elemen DOM
-const productGrid = document.getElementById("productGrid");
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-
-// Fungsi menampilkan produk ke halaman
+// Menampilkan Produk ke Grid
 function renderProducts(items) {
-  productGrid.innerHTML = "";
+  const grid = document.getElementById("productGrid");
+  if (!grid) return;
+  
+  grid.innerHTML = "";
 
   if (items.length === 0) {
-    productGrid.innerHTML = "<p>Produk tidak ditemukan.</p>";
+    grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #64748b;">Produk tidak ditemukan.</p>`;
     return;
   }
 
   items.forEach(product => {
     const card = document.createElement("div");
-    card.classList.add("product-card");
-
+    card.className = "product-card";
     card.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
-      <span class="category">${product.category}</span>
-      <h3>${product.name}</h3>
-      <div class="price">Rp ${product.price.toLocaleString("id-ID")}</div>
-      <button onclick="addToCart(${product.id})">+ Keranjang</button>
+      <div>
+        <div class="product-category">${product.category}</div>
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-price">Rp ${product.price.toLocaleString("id-ID")}</div>
+      </div>
+      <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+        + Keranjang
+      </button>
     `;
-
-    productGrid.appendChild(card);
+    grid.appendChild(card);
   });
 }
 
-// Fungsi Filter & Pencarian
-function filterProducts() {
-  const searchText = searchInput.value.toLowerCase();
-  const selectedCategory = categoryFilter.value;
+// Fitur Filter & Pencarian
+function setupFilters() {
+  const searchInput = document.getElementById("searchInput");
+  const categoryFilter = document.getElementById("categoryFilter");
 
-  const filtered = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchText);
-    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  function filterData() {
+    const query = searchInput ? searchInput.value.toLowerCase() : "";
+    const category = categoryFilter ? categoryFilter.value : "all";
 
-  renderProducts(filtered);
+    const filtered = products.filter(p => {
+      const matchesSearch = p.name.toLowerCase().includes(query);
+      const matchesCategory = category === "all" || p.category === category;
+      return matchesSearch && matchesCategory;
+    });
+
+    renderProducts(filtered);
+  }
+
+  if (searchInput) searchInput.addEventListener("input", filterData);
+  if (categoryFilter) categoryFilter.addEventListener("change", filterData);
 }
 
-// Event Listener
-searchInput.addEventListener("input", filterProducts);
-categoryFilter.addEventListener("change", filterProducts);
-
-// Jalankan pertama kali saat halaman dimuat
-renderProducts(products);
-
-// Simulasi tambah ke keranjang (bisa dihubungkan ke fitur keranjang temanmu nanti)
-function addToCart(productId) {
-  alert(`Produk ID ${productId} berhasil ditambahkan ke keranjang!`);
-}
+// Inisialisasi Produk saat Halaman Dimuat
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts(products);
+  setupFilters();
+});

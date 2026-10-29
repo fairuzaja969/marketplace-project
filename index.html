@@ -3,28 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StoreHub - Platform E-Commerce Masa Depan</title>
+    <title>Ada TeSoed - Solusi Perkakas & Teknik Terlengkap</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                blue: '#1d4ed8',     /* Blue 600 */
+                darkblue: '#1e3a8a', /* Blue 900 */
+                yellow: '#f59e0b',   /* Amber 500 */
+                lightyellow: '#fbbf24' /* Amber 400 */
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/cart.css">
     <style>
       :root {
-        --bg: #eef2ec; --surface: #ffffff; --ink: #1c2b25; --muted: #5d6d65;
-        --line: #cfd8d1; --brand: #1d6b57; --brand-ink: #ffffff; --accent: #e2a42b;
-        --danger: #b3261e;
+        --bg: #f8fafc; --surface: #ffffff; --ink: #0f172a; --muted: #64748b;
+        --line: #e2e8f0; --brand: #1d4ed8; --brand-ink: #ffffff; --accent: #f59e0b;
+        --danger: #ef4444;
       }
+      
+      /* Styles untuk Modal Auth */
       .auth-overlay {
-        position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+        position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
         display: flex; align-items: center; justify-content: center;
         z-index: 1000; padding: 20px;
       }
       .card-auth {
         width: 100%; max-width: 420px; background: var(--surface);
-        border: 1px solid var(--line); border-radius: 14px; padding: 28px;
+        border: 1px solid var(--line); border-radius: 16px; padding: 28px;
         position: relative; color: var(--ink);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
       }
-      .card-auth h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.02em; }
+      .card-auth h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.02em; font-weight: 800; }
       .card-auth .sub { margin: 0 0 20px; color: var(--muted); }
       
       .tabs-auth { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
@@ -32,19 +52,19 @@
         background: none; border: 0; padding: 10px; font: inherit; font-weight: 600;
         color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
       }
-      .tab-auth[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+      .tab-auth[aria-selected="true"] { color: var(--brand); border-bottom-color: var(--accent); }
       
       .roles-auth { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
       .roles-auth label { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; font-weight: 600; }
       .roles-auth label small { display: block; font-weight: 400; color: var(--muted); }
       .roles-auth input { position: absolute; opacity: 0; }
-      .roles-auth label:has(input:checked) { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+      .roles-auth label:has(input:checked) { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); background-color: #eff6ff; }
       
       .field-auth { margin-bottom: 14px; }
       .field-auth label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .92rem; }
       .field-auth input {
         width: 100%; padding: 11px 12px; font: inherit; color: var(--ink);
-        background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+        background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
       }
       .field-auth.invalid input { border-color: var(--danger); }
       .err-auth { color: var(--danger); font-size: .86rem; margin-top: 4px; }
@@ -61,11 +81,13 @@
       .btn-auth {
         width: 100%; padding: 12px; font: inherit; font-weight: 700; cursor: pointer;
         background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px;
+        transition: background 0.2s;
       }
+      .btn-auth:hover { background: #1e40af; }
       .btn-auth.ghost { background: none; color: var(--ink); border: 1px solid var(--line); }
       .banner-auth {
         padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; font-size: .92rem;
-        background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger);
+        background: rgba(239, 68, 68, 0.1); color: var(--danger);
       }
       .close-auth-btn {
         position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted);
@@ -75,33 +97,33 @@
 <body class="bg-slate-50 text-slate-800 font-sans">
 
     <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100">
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-2">
-                <span class="text-2xl font-black text-indigo-600 tracking-tight">Store<span class="text-slate-900">Hub</span></span>
+                <span class="text-2xl font-black text-blue-700 tracking-tight">Ada<span class="text-amber-500">TeSoed</span></span>
             </div>
             <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
-                <a href="#katalog" class="hover:text-indigo-600 transition">Katalog</a>
-                <a href="#fitur" class="hover:text-indigo-600 transition">Fitur Unggulan</a>
-                <a href="#cara-kerja" class="hover:text-indigo-600 transition">Cara Kerja</a>
+                <a href="#katalog" class="hover:text-blue-700 transition">Katalog Produk</a>
+                <a href="#fitur" class="hover:text-blue-700 transition">Keunggulan Kami</a>
+                <a href="#cara-kerja" class="hover:text-blue-700 transition">Cara Transaksi</a>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="toggleAuthModal()" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition">Masuk</button>
-                <button onclick="toggleAuthModal('register')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">Mulai Gratis</button>
+                <button onclick="toggleAuthModal('login')" class="text-sm font-semibold text-slate-700 hover:text-blue-700 transition">Masuk</button>
+                <button onclick="toggleAuthModal('register')" class="bg-amber-500 text-slate-900 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-amber-400 transition shadow-md shadow-amber-200">Daftar Akun</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="bg-gradient-to-b from-indigo-950 via-indigo-900 to-indigo-900 text-white py-24 lg:py-32 relative overflow-hidden">
+    <!-- Hero Section (Landing Page) -->
+    <header class="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white py-24 lg:py-32 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="max-w-3xl mx-auto text-center">
-                <span class="bg-indigo-800/80 border border-indigo-700 text-indigo-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-6">Platform E-Commerce Terpadu</span>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Solusi Digital Terbaik untuk Pertumbuhan Bisnis & Belanja Anda</h1>
-                <p class="text-lg sm:text-xl text-indigo-200 mb-10 leading-relaxed">StoreHub menghubungkan jutaan pembeli dan penjual dalam satu ekosistem digital yang aman, cepat, dan mudah diakses kapan saja.</p>
+                <span class="bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-6">Pusat Peralatan & Industri</span>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Solusi Perkakas & Mesin Teknik Terlengkap</h1>
+                <p class="text-lg sm:text-xl text-blue-100 mb-10 leading-relaxed">Ada TeSoed menyediakan mesin industri, alat perbengkelan, dan perlengkapan teknik berkualitas tinggi dengan garansi terjamin.</p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="#katalog" class="bg-white text-indigo-950 font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-indigo-50 transition text-center">Belanja Sekarang</a>
-                    <a href="#fitur" class="bg-indigo-800/50 border border-indigo-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-indigo-800 transition text-center">Pelajari Fitur</a>
+                    <a href="#katalog" class="bg-amber-500 text-slate-900 font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-amber-400 transition text-center">Lihat Katalog Produk</a>
+                    <a href="#fitur" class="bg-blue-800/60 border border-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition text-center">Mengapa Ada Teknik?</a>
                 </div>
             </div>
         </div>
@@ -110,14 +132,15 @@
     <!-- Section Katalog Produk -->
     <section id="katalog" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="catalog-container">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-6">Katalog Produk</h2>
-            <div class="filter-bar mb-8">
-                <input type="text" id="searchInput" placeholder="Cari produk..." class="p-3 border border-slate-200 rounded-xl mr-2">
-                <select id="categoryFilter" class="p-3 border border-slate-200 rounded-xl">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Katalog Produk Teknik</h2>
+            <p class="text-slate-600 mb-6">Temukan mesin, perkakas tangan, dan perlengkapan industri sesuai kebutuhan Anda.</p>
+            <div class="filter-bar mb-8 flex flex-col md:flex-row gap-4">
+                <input type="text" id="searchInput" placeholder="Cari mesin, bor, las, dll..." class="p-3 border border-slate-300 rounded-xl flex-1 focus:outline-none focus:border-blue-600">
+                <select id="categoryFilter" class="p-3 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
                     <option value="all">Semua Kategori</option>
-                    <option value="elektronik">Elektronik</option>
-                    <option value="pakaian">Pakaian</option>
-                    <option value="aksesoris">Aksesoris</option>
+                    <option value="elektronik">Power Tools & Mesin</option>
+                    <option value="pakaian">Perkakas Tangan (Hand Tools)</option>
+                    <option value="aksesoris">Safety & Aksesoris</option>
                 </select>
             </div>
             <div class="product-grid" id="productGrid"></div>
@@ -125,52 +148,52 @@
     </section>
 
     <!-- Fitur Unggulan Section -->
-    <section id="fitur" class="py-24 bg-white border-t border-slate-100 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="fitur" class="py-24 bg-white border-t border-slate-200 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-16">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Mengapa Memilih StoreHub?</h2>
-            <p class="text-slate-600 text-base">Kami menghadirkan teknologi mutakhir untuk memastikan pengalaman transaksi online yang mulus tanpa hambatan.</p>
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Mengapa Memilih Ada TeSoed?</h2>
+            <p class="text-slate-600 text-base">Jaminan kualitas produk teknik terbaik untuk mendukung pekerjaan proyek dan industri Anda.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
-                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">🔒</div>
-                <h3 class="font-bold text-xl text-slate-900 mb-3">Keamanan Transaksi</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">Dilengkapi enkripsi tingkat tinggi dan sistem verifikasi ketat untuk menjamin setiap transaksi aman dari penipuan.</p>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-amber-500 transition">🛠️</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Produk Original & Garansi</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Semua perkakas dan mesin dijamin keasliannya dan dilindungi garansi resmi purna jual.</p>
             </div>
-            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
-                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">⚡</div>
-                <h3 class="font-bold text-xl text-slate-900 mb-3">Performa Super Cepat</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">Infrastruktur cloud modern memastikan akses platform tanpa lemot, bahkan saat traffic lonjakan tinggi.</p>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition">⚡</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Pengiriman Cepat & Aman</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Pengiriman menjangkau seluruh Indonesia dengan proteksi khusus untuk barang berat dan bernilai tinggi.</p>
             </div>
-            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
-                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">📊</div>
-                <h3 class="font-bold text-xl text-slate-900 mb-3">Dashboard Analitik</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">Fitur pelaporan data real-time bagi penjual untuk memantau performa penjualan dan stok secara akurat.</p>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-amber-500 transition">🤝</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Konsultasi Teknik Gratis</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Tim ahli kami siap membantu memilihkan produk dan spesifikasi mesin yang tepat untuk proyek Anda.</p>
             </div>
         </div>
     </section>
 
     <!-- Cara Kerja Section -->
-    <section id="cara-kerja" class="py-24 bg-white border-y border-slate-100">
+    <section id="cara-kerja" class="py-24 bg-slate-100 border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Bagaimana Cara Kerjanya?</h2>
-                <p class="text-slate-600 text-base">Hanya butuh tiga langkah mudah untuk mulai bergabung bersama ekosistem kami.</p>
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Cara Transaksi di Ada TeSoed</h2>
+                <p class="text-slate-600 text-base">Tiga langkah praktis belanja produk dan perkakas teknik pilihan Anda.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                 <div class="relative">
-                    <div class="text-4xl font-black text-indigo-100 mb-4">01</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Buat Akun</h3>
-                    <p class="text-slate-600 text-sm">Daftar dalam hitungan detik menggunakan email atau nomor telepon aktif Anda.</p>
-                </div>
-                <div class="relative">
-                    <div class="text-4xl font-black text-indigo-100 mb-4">02</div>
+                    <div class="text-4xl font-black text-blue-300 mb-4">01</div>
                     <h3 class="font-bold text-lg text-slate-900 mb-2">Pilih Produk</h3>
-                    <p class="text-slate-600 text-sm">Temukan barang impian Anda dan masukkan ke dalam keranjang belanja.</p>
+                    <p class="text-slate-600 text-sm">Cari barang teknik yang Anda butuhkan lalu klik Tambah ke Keranjang.</p>
                 </div>
                 <div class="relative">
-                    <div class="text-4xl font-black text-indigo-100 mb-4">03</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Mulai Bertransaksi</h3>
-                    <p class="text-slate-600 text-sm">Nikmati kemudahan belanja atau kembangkan bisnis Anda secara global.</p>
+                    <div class="text-4xl font-black text-blue-300 mb-4">02</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Isi Form Pengiriman</h3>
+                    <p class="text-slate-600 text-sm">Lengkapi alamat dan pilih metode pembayaran resmi yang aman.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-4xl font-black text-blue-300 mb-4">03</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Barang Dikirim</h3>
+                    <p class="text-slate-600 text-sm">Pesanan siap diproses dan dikirim langsung ke lokasi/proyek Anda.</p>
                 </div>
             </div>
         </div>
@@ -181,15 +204,15 @@
       <main class="card-auth">
         <button class="close-auth-btn" onclick="toggleAuthModal()">&times;</button>
         <section id="profile" class="profile hidden">
-          <h1 id="hello">Halo!</h1>
-          <p class="sub">Kamu sudah masuk.</p>
-          <dl id="info"></dl>
-          <button class="btn-auth ghost" id="logout" type="button">Keluar</button>
+          <h1 id="hello" class="text-blue-900 font-bold">Halo!</h1>
+          <p class="sub">Kamu sudah masuk ke akun Ada TeSoed.</p>
+          <dl id="info" class="mb-4"></dl>
+          <button class="btn-auth ghost" id="logout" type="button">Keluar Akun</button>
         </section>
 
         <section id="auth">
-          <h1>StoreHub</h1>
-          <p class="sub">Masuk untuk belanja atau berjualan.</p>
+          <h1 class="text-blue-900">Ada<span class="text-amber-500">TeSoed</span></h1>
+          <p class="sub">Masuk untuk belanja perkakas atau membuka toko.</p>
           <div class="tabs-auth" role="tablist">
             <button class="tab-auth" role="tab" id="tab-login" aria-selected="true" type="button">Masuk</button>
             <button class="tab-auth" role="tab" id="tab-register" aria-selected="false" type="button">Daftar</button>
@@ -199,37 +222,37 @@
           <form id="login-form" novalidate>
             <div class="field-auth">
               <label for="l-email">Email</label>
-              <input id="l-email" name="email" type="email" autocomplete="email" required>
+              <input id="l-email" name="email" type="email" autocomplete="email" required placeholder="nama@email.com">
             </div>
             <div class="field-auth">
               <label for="l-pass">Kata sandi</label>
               <div class="pw-auth">
-                <input id="l-pass" name="password" type="password" autocomplete="current-password" required>
+                <input id="l-pass" name="password" type="password" autocomplete="current-password" required placeholder="••••••••">
                 <button type="button" data-toggle="l-pass">Lihat</button>
               </div>
             </div>
             <label class="check-auth"><input type="checkbox" name="remember"> Ingat saya di perangkat ini</label>
-            <button class="btn-auth" type="submit">Masuk</button>
+            <button class="btn-auth bg-blue-700 hover:bg-blue-800 text-white" type="submit">Masuk Akun</button>
           </form>
 
           <form id="register-form" class="hidden" novalidate>
             <div class="roles-auth" role="radiogroup">
               <label><input type="radio" name="role" value="buyer" checked>Pembeli<small>Belanja produk</small></label>
-              <label><input type="radio" name="role" value="seller">Penjual<small>Buka toko</small></label>
+              <label><input type="radio" name="role" value="seller">Penjual<small>Buka toko teknik</small></label>
             </div>
             <div class="field-auth">
               <label for="r-name">Nama lengkap</label>
-              <input id="r-name" name="name" required>
+              <input id="r-name" name="name" required placeholder="Nama Anda">
               <div class="err-auth"></div>
             </div>
             <div class="field-auth hidden" id="store-field">
               <label for="r-store">Nama toko</label>
-              <input id="r-store" name="store_name">
+              <input id="r-store" name="store_name" placeholder="Nama Toko Teknik Anda">
               <div class="err-auth"></div>
             </div>
             <div class="field-auth">
               <label for="r-email">Email</label>
-              <input id="r-email" name="email" type="email" required>
+              <input id="r-email" name="email" type="email" required placeholder="nama@email.com">
               <div class="err-auth"></div>
             </div>
             <div class="field-auth">
@@ -240,28 +263,28 @@
             <div class="field-auth">
               <label for="r-pass">Kata sandi</label>
               <div class="pw-auth">
-                <input id="r-pass" name="password" type="password" required>
+                <input id="r-pass" name="password" type="password" required placeholder="Minimal 8 karakter">
                 <button type="button" data-toggle="r-pass">Lihat</button>
               </div>
               <div class="err-auth"></div>
             </div>
             <div class="field-auth">
               <label for="r-pass2">Ulangi kata sandi</label>
-              <input id="r-pass2" name="password2" type="password" required>
+              <input id="r-pass2" name="password2" type="password" required placeholder="Ulangi kata sandi">
               <div class="err-auth"></div>
             </div>
-            <button class="btn-auth" type="submit">Buat akun</button>
+            <button class="btn-auth bg-blue-700 hover:bg-blue-800 text-white" type="submit">Buat Akun</button>
           </form>
         </section>
       </main>
     </div>
 
     <!-- Floating Button Keranjang Belanja -->
-    <div class="cart-floating-btn" onclick="toggleCartModal()">
-        🛒 <span id="cartCount">0</span>
+    <div class="cart-floating-btn !bg-blue-700 hover:!bg-blue-800" onclick="toggleCartModal()">
+        🛒 <span id="cartCount" class="!bg-amber-500 !text-slate-900">0</span>
     </div>
 
-    <!-- Modal Keranjang Belanja -->
+    <!-- Modal Side Panel Keranjang Belanja -->
     <div class="cart-overlay" id="cartOverlay">
         <div class="cart-modal">
             <div class="cart-header">
@@ -274,28 +297,28 @@
                     <span>Total:</span>
                     <strong id="cartTotal">Rp 0</strong>
                 </div>
-                <button class="checkout-btn" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
+                <button class="checkout-btn !bg-amber-500 hover:!bg-amber-400 !text-slate-900 font-bold" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Checkout -->
+    <!-- Modal Form Checkout -->
     <div class="checkout-overlay" id="checkoutOverlay">
         <div class="checkout-modal">
-            <h2>Form Formulir Checkout</h2>
+            <h2>Formulir Checkout Pesanan</h2>
             <form id="checkoutForm" onsubmit="processCheckout(event)">
                 <div class="form-group">
-                    <label for="name">Nama Lengkap</label>
+                    <label for="name">Nama Lengkap Penerima</label>
                     <input type="text" id="name" required placeholder="Masukkan nama lengkap">
                 </div>
                 <div class="form-group">
                     <label for="address">Alamat Pengiriman</label>
-                    <textarea id="address" rows="3" required placeholder="Alamat lengkap tujuan"></textarea>
+                    <textarea id="address" rows="3" required placeholder="Alamat lengkap lokasi/proyek"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="payment">Metode Pembayaran</label>
                     <select id="payment" required>
-                        <option value="transfer">Transfer Bank (BCA / Mandiri)</option>
+                        <option value="transfer">Transfer Bank (BCA / Mandiri / BRI)</option>
                         <option value="ewallet">E-Wallet (Gopay / ShopeePay)</option>
                         <option value="cod">Bayar di Tempat (COD)</option>
                     </select>
@@ -306,20 +329,20 @@
                 </div>
                 <div class="checkout-actions">
                     <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
-                    <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
+                    <button type="submit" class="submit-btn !bg-blue-700 hover:!bg-blue-800">Konfirmasi Pesanan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-12 text-sm border-t border-slate-800">
+    <footer class="bg-blue-950 text-slate-300 py-12 text-sm border-t border-blue-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
-                <span class="text-xl font-black text-white tracking-tight">Store<span class="text-indigo-400">Hub</span></span>
-                <p class="text-slate-500 text-xs mt-1">Platform E-Commerce Terintegrasi Modern.</p>
+                <span class="text-2xl font-black text-white tracking-tight">Ada<span class="text-amber-500">TeSoed</span></span>
+                <p class="text-slate-400 text-xs mt-1">Pusat Peralatan, Mesin, & Perkakas Teknik Terpercaya.</p>
             </div>
-            <p>&copy; 2026 StoreHub Indonesia. All rights reserved.</p>
+            <p>&copy; 2026 Ada TeSoed Indonesia. All rights reserved.</p>
         </div>
     </footer>
 
@@ -475,6 +498,48 @@
         const email = f.email.value.trim().toLowerCase();
         const password = f.password.value;
 
-        if (!email || !password) return showBanner('Isi email dan kata sand')
+        if (!email || !password) return showBanner('Isi email dan kata sandi.');
+
+        btn.disabled = true;
+        try {
+          const user = getUsers().find(u => u.email === email);
+          const hash = user ? await hashPassword(password, user.salt) : null;
+          if (!user || hash !== user.passwordHash) return showBanner('Email atau kata sandi salah.');
+
+          saveSession(user.email, f.remember.checked);
+          f.reset(); showProfile(user);
+        } catch (err) { showBanner(err.message); }
+        finally { btn.disabled = false; }
+      };
+
+      function showProfile(user) {
+        clearErrors();
+        authEl.classList.add('hidden');
+        profileEl.classList.remove('hidden');
+        $('#hello').textContent = `Halo, ${user.name}!`;
+
+        const rows = [['Email', user.email], ['Peran', user.role === 'seller' ? 'Penjual' : 'Pembeli']];
+        if (user.store_name) rows.push(['Toko', user.store_name]);
+        if (user.phone) rows.push(['Nomor HP', user.phone]);
+
+        const dl = $('#info'); dl.replaceChildren();
+        for (const [label, value] of rows) {
+          const dt = document.createElement('dt'); const dd = document.createElement('dd');
+          dt.textContent = label; dd.textContent = value;
+          dl.append(dt, dd);
+        }
       }
-      
+
+      $('#logout').onclick = () => {
+        clearSession();
+        profileEl.classList.add('hidden');
+        authEl.classList.remove('hidden');
+        showTab('login');
+      };
+
+      const sessionEmail = getSession();
+      const current = sessionEmail && getUsers().find(u => u.email === sessionEmail);
+      if (current) showProfile(current);
+    </script>
+</body>
+</html>
