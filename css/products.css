@@ -1,0 +1,97 @@
+/* Container Utama */
+.catalog-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.catalog-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filter-bar input, 
+.filter-bar select {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.filter-bar input {
+  flex: 1;
+}
+
+/* Grid Layout Produk */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* Card Produk */
+.product-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.product-card .category {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.product-card h3 {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #222;
+}
+
+.product-card .price {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.product-card button {
+  width: 100%;
+  padding: 10px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.product-card button:hover {
+  background-color: #219150;
+}

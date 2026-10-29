@@ -1,0 +1,190 @@
+/* Floating Cart Button */
+.cart-floating-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #27ae60;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 999;
+}
+
+#cartCount {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+/* Modal Overlay Keranjang Side Panel */
+.cart-overlay, .checkout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+.cart-modal {
+  width: 380px;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+}
+
+.cart-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f9f9f9;
+  padding-bottom: 10px;
+}
+
+.cart-item-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.cart-item-info p {
+  margin: 0;
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-item-qty button {
+  background-color: #eee;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background-color: #1f6391;
+}
+
+/* Modal Form Checkout Center */
+.checkout-overlay {
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-modal {
+  background-color: #fff;
+  width: 450px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.checkout-summary {
+  background-color: #f4f6f7;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 15px 0;
+}
+
+.checkout-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.checkout-actions button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn { background-color: #95a5a6; color: white; }
+.submit-btn { background-color: #27ae60; color: white; }
