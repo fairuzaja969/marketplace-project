@@ -29,7 +29,6 @@ price: 45000,
     image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500"
   }
 ];
-];
 
 // Menampilkan Produk ke Grid
 function renderProducts(items) {
