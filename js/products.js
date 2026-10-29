@@ -2,10 +2,10 @@
 const products = [
   {
     id: 1,
-    name: "PressPlay Spirit PRO 8K",
-    category: "elektronik",
-    price: 790000,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS19l4kjxd-LVzLA_KlTauz8DAdgMxcby3b2K2BKpsbcQ&s=10"
+    name: "Kertas Folio bergaris 100 lembar",
+    category: "",
+    price: 30000,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3lsOhcX_t1UFuWfRega9QwXRhKj_o_Zo3MXbkRQ9SrA&s=10"
   },
   {
     id: 2,
@@ -27,7 +27,14 @@ const products = [
     category: "aksesoris",
     price: 50000,
     image: "https://via.placeholder.com/200"
-  }
+  },
+  {
+    id: 5,
+    name: "BIMO sama kandang",
+    category: "pakaian",
+    price: 2000,
+    image: "images/bimo.png"
+  },
 ];
 
 // Elemen DOM
@@ -61,7 +68,7 @@ function renderProducts(items) {
 }
 
 // Fungsi Filter & Pencarian
-function filterProducts() {
+function filterProducts() {1saz
   const searchText = searchInput.value.toLowerCase();
   const selectedCategory = categoryFilter.value;
 
@@ -82,6 +89,43 @@ categoryFilter.addEventListener("change", filterProducts);
 renderProducts(products);
 
 // Simulasi tambah ke keranjang (bisa dihubungkan ke fitur keranjang temanmu nanti)
+// Fungsi Tambah Produk ke Keranjang (Terhubung dengan cart.js)
 function addToCart(productId) {
-  alert(`Produk ID ${productId} berhasil ditambahkan ke keranjang!`);
+  // 1. Cari data produk berdasarkan ID
+  const productToAdd = products.find(p => p.id === productId);
+
+  if (!productToAdd) return;
+
+  // 2. Ambil data keranjang dari LocalStorage
+  let currentCart = JSON.parse(localStorage.getItem("cartData")) || [];
+
+  // 3. Cek apakah produk sudah ada di keranjang
+  const existingItemIndex = currentCart.findIndex(item => item.id === productId);
+
+  if (existingItemIndex > -1) {
+    // Jika sudah ada, tambahkan jumlahnya (quantity)
+    currentCart[existingItemIndex].quantity += 1;
+  } else {
+    // Jika belum ada, masukkan produk baru ke keranjang
+    currentCart.push({
+      id: productToAdd.id,
+      name: productToAdd.name,
+      price: productToAdd.price,
+      quantity: 1
+    });
+  }
+
+  // 4. Simpan kembali ke LocalStorage
+  localStorage.setItem("cartData", JSON.stringify(currentCart));
+
+  // 5. Perbarui tampilan keranjang jika fungsi renderCart dari cart.js ada
+  if (typeof renderCart === 'function') {
+    // Update data variabel cart global jika ada
+    if (typeof cart !== 'undefined') {
+      cart = currentCart;
+    }
+    renderCart();
+  }
+
+  alert(`${productToAdd.name} berhasil ditambahkan ke keranjang!`);
 }
