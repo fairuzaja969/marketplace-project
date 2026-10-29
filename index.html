@@ -1,87 +1,100 @@
 <!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace Kelompok</title>
-  <link rel="stylesheet" href="css/products.css">
-  <link rel="stylesheet" href="css/cart.css">
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreHub - Platform E-Commerce Masa Depan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/cart.css">
+</head> 
+<body class="bg-slate-50 text-slate-800 font-sans">
 
-  <!-- 1. Bagian Katalog Produk -->
-  <section class="catalog-container">
-    <h2>Katalog Produk</h2>
-    <div class="filter-bar">
-      <input type="text" id="searchInput" placeholder="Cari produk...">
-      <select id="categoryFilter">
-        <option value="all">Semua Kategori</option>
-        <option value="elektronik">Elektronik</option>
-        <option value="pakaian">Pakaian</option>
-        <option value="aksesoris">Aksoris</option>
-      </select>
-    </div>
-    <div class="product-grid" id="productGrid"></div>
-  </section>
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-black text-indigo-600 tracking-tight">Store<span class="text-slate-900">Hub</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#katalog" class="hover:text-indigo-600 transition">Katalog</a>
+                <a href="#fitur" class="hover:text-indigo-600 transition">Fitur Unggulan</a>
+                <a href="#cara-kerja" class="hover:text-indigo-600 transition">Cara Kerja</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition">Masuk</a>
+                <a href="#" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">Mulai Gratis</a>
+            </div>
+        </div>
+    </nav>
 
-  <!-- 2. Bagian Keranjang Belanja & Floating Button -->
-  <div class="cart-floating-btn" onclick="toggleCartModal()">
-    🛒 <span id="cartCount">0</span>
-  </div>
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-b from-indigo-950 via-indigo-900 to-indigo-900 text-white py-24 lg:py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <span class="bg-indigo-800/80 border border-indigo-700 text-indigo-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-6">Platform E-Commerce Terpadu</span>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Solusi Digital Terbaik untuk Pertumbuhan Bisnis & Belanja Anda</h1>
+                <p class="text-lg sm:text-xl text-indigo-200 mb-10 leading-relaxed">StoreHub menghubungkan jutaan pembeli dan penjual dalam satu ekosistem digital yang aman, cepat, dan mudah diakses kapan saja.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#katalog" class="bg-white text-indigo-950 font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-indigo-50 transition text-center">Belanja Sekarang</a>
+                    <a href="#fitur" class="bg-indigo-800/50 border border-indigo-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-indigo-800 transition text-center">Pelajari Fitur</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <div class="cart-overlay" id="cartOverlay">
-    <div class="cart-modal">
-      <div class="cart-header">
-        <h2>Keranjang Belanja</h2>
-        <button class="close-btn" onclick="toggleCartModal()">&times;</button>
-      </div>
-      <div class="cart-items" id="cartItems"></div>
-      <div class="cart-footer">
-        <div class="total-price">
-          <span>Total:</span>
-          <strong id="cartTotal">Rp 0</strong>
+    <!-- Section Katalog Produk -->
+    <section id="katalog" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="catalog-container">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-6">Katalog Produk</h2>
+            <div class="filter-bar mb-8">
+                <input type="text" id="searchInput" placeholder="Cari produk..." class="p-3 border border-slate-200 rounded-xl mr-2">
+                <select id="categoryFilter" class="p-3 border border-slate-200 rounded-xl">
+                    <option value="all">Semua Kategori</option>
+                    <option value="elektronik">Elektronik</option>
+                    <option value="pakaian">Pakaian</option>
+                    <option value="aksesoris">Aksesoris</option>
+                </select>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
         </div>
-        <button class="checkout-btn" onclick="openCheckoutModal()">Lanjut ke Checkout</button>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- 3. Bagian Modal Checkout -->
-  <div class="checkout-overlay" id="checkoutOverlay">
-    <div class="checkout-modal">
-      <h2>Form Formulir Checkout</h2>
-      <form id="checkoutForm" onsubmit="processCheckout(event)">
-        <div class="form-group">
-          <label for="name">Nama Lengkap</label>
-          <input type="text" id="name" required placeholder="Masukkan nama lengkap">
+    <!-- Fitur Unggulan Section -->
+    <section id="fitur" class="py-24 bg-white border-t border-slate-100 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Mengapa Memilih StoreHub?</h2>
+            <p class="text-slate-600 text-base">Kami menghadirkan teknologi mutakhir untuk memastikan pengalaman transaksi online yang mulus tanpa hambatan.</p>
         </div>
-        <div class="form-group">
-          <label for="address">Alamat Pengiriman</label>
-          <textarea id="address" rows="3" required placeholder="Alamat lengkap tujuan"></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">🔒</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Keamanan Transaksi</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Dilengkapi enkripsi tingkat tinggi dan sistem verifikasi ketat untuk menjamin setiap transaksi aman dari penipuan.</p>
+            </div>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">⚡</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Performa Super Cepat</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Infrastruktur cloud modern memastikan akses platform tanpa lemot, bahkan saat traffic lonjakan tinggi.</p>
+            </div>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">📊</div>
+                <h3 class="font-bold text-xl text-slate-900 mb-3">Dashboard Analitik</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">Fitur pelaporan data real-time bagi penjual untuk memantau performa penjualan dan stok secara akurat.</p>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="payment">Metode Pembayaran</label>
-          <select id="payment" required>
-            <option value="transfer">Transfer Bank (BCA / Mandiri)</option>
-            <option value="ewallet">E-Wallet (Gopay / ShopeePay)</option>
-            <option value="cod">Bayar di Tempat (COD)</option>
-          </select>
-        </div>
-        <div class="checkout-summary">
-          <h4>Ringkasan Pembayaran</h4>
-          <p>Total Bayar: <strong id="checkoutTotal">Rp 0</strong></p>
-        </div>
-        <div class="checkout-actions">
-          <button type="button" class="cancel-btn" onclick="closeCheckoutModal()">Batal</button>
-          <button type="submit" class="submit-btn">Konfirmasi Pesanan</button>
-        </div>
-      </form>
-    </div>
-  </div>
+    </section>
 
-  <!-- 4. Pemanggilan File JavaScript -->
-  <script src="js/products.js"></script>
-  <script src="js/cart.js"></script>
-</body>
-</html>
+    <!-- Cara Kerja Section -->
+    <section id="cara-kerja" class="py-24 bg-white border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">Bagaimana Cara Kerjanya?</h2>
+                <p class="text-slate-600 text-base">Hanya butuh tiga langkah mudah untuk mulai bergabung bersama ekosistem kami.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div class="relative">
+                    <div class="text-4xl
 </html>
